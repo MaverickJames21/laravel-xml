@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<invoice:request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <invoice:processing>
+    <invoice:transport from="7601001302112" to="7634567890000">
+      <invoice:via via="2000012345678" sequence_id="1"/>
+    </invoice:transport>
+  </invoice:processing>
+  <invoice:payload type="invoice" copy="0" storno="0">
+    <invoice:invoice request_timestamp="1619688895" request_date="2021-04-25T00:00:00" request_id="2936699385"/>
+    <invoice:body role="hospital" place="hospital"/>
+    <invoice:prolog>
+      <invoice:package name="GeneralInvoiceRequestTest" copyright="suva 2000-21" version="100021"/>
+      <invoice:generator name="GeneralInvoiceRequestManager 4.50.019" copyright="suva 2000-21" version="450">
+        <invoice:depends_on name="drgValidator ATL Module" copyright="Suva" version="100" id="1007090101"/>
+      </invoice:generator>
+    </invoice:prolog>
+    <invoice:remark>Lorem ipsum per nostra mi fune torectum mikonstra.diloru si limus mer fin per od per nostra mi fune torectum mi konstradiloru si limus mer fin itorectum mi konstradiloruko.</invoice:remark>
+    <invoice:invoice_tiers_payant/>
+    <invoice:biller ean_party="2011234567890" zsr="H121111" uid_number="CHE108791452">
+      <invoice:company>
+        <invoice:companyname/>
+      </invoice:company>
+    </invoice:biller>
+  </invoice:payload>
+</invoice:request>
