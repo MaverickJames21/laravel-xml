@@ -199,7 +199,7 @@ class CreateXmlService {
         $invoice_provider = $xmlDoc->createElement('invoice:provider');
 
         // Set attribute node invoice:biller which is in invoice:tiers_payant
-        $invoice_provider->setAttributeNode(new domAttr('ean_party',7634567890000));
+        $invoice_provider->setAttributeNode(new domAttr('ean_party',7634567890111));
         $invoice_provider->setAttributeNode(new domAttr('zsr','P123456'));
 
         // Create invoice:company which is in invoice:provider
@@ -230,95 +230,369 @@ class CreateXmlService {
 
 
 
+        /**
+         * Create invoice:insurance.
+         */
+
+        // Create invoice:insurance which is in invoice:tiers_payant
+        $invoice_insurance = $xmlDoc->createElement('invoice:insurance');
+
+        // Set attribute node invoice:insurance which is in invoice:tiers_payant
+        $invoice_insurance->setAttributeNode(new domAttr('ean_party',7634567890000));
+
+        // Create invoice:company which is in invoice:provider
+        $invoice_company = $xmlDoc->createElement('invoice:company');
+        $invoice_company_name = $xmlDoc->createElement('invoice:companyname', 'Krankenkasse AG');
+        $invoice_departement = $xmlDoc->createElement('invoice:departement', 'Sektion Basel');
+        $invoice_company->appendChild($invoice_company_name);
+        $invoice_company->appendChild($invoice_departement);
+        $invoice_postal = $xmlDoc->createElement('invoice:postal');
+        $invoice_street = $xmlDoc->createElement('invoice:street', 'Kassengraben 222');
+        $invoice_zip->setAttributeNode(new domAttr('statecode','BS'));
+        $invoice_zip = $xmlDoc->createElement('invoice:zip', 4000);
+        $invoice_city = $xmlDoc->createElement('invoice:city', 'Basel');
+        $invoice_postal->appendChild($invoice_street);
+        $invoice_postal->appendChild($invoice_zip);
+        $invoice_postal->appendChild($invoice_city);
+        $invoice_company->appendChild($invoice_postal);
+        $invoice_insurance->appendChild($invoice_company);
+
+        // save child invoice:insurance which is in invoice:tiers_payant
+        $invoice_tiers_payant->appendChild($invoice_insurance);
 
 
 
 
 
+        /**
+         * Create invoice:patient.
+         */
+
+        // Create invoice:patient and invoice:personne which is in invoice:tiers_payant
+        $invoice_patient = $xmlDoc->createElement('invoice:patient');
+        $invoice_person = $xmlDoc->createElement('invoice:person');
+
+        // Set attribute node patient and invoice:personne which is in invoice:tiers_payant
+        $invoice_patient->setAttributeNode(new domAttr('gender','female'));
+        $invoice_patient->setAttributeNode(new domAttr('birthdate','2004-02-02T00:00:00'));
+        $invoice_patient->setAttributeNode(new domAttr('ssn',7561234567890));
+        $invoice_person->setAttributeNode(new domAttr('salutation','Frau'));
+        $invoice_patient->appendChild($invoice_person);
+
+        // Create invoice:patient and invoice:personne which is in invoice:tiers_payant
+        $invoice_family_name = $xmlDoc->createElement('invoice:familyname','Muster');
+        $invoice_give_name = $xmlDoc->createElement('invoice:givenname','Petra');
+        $invoice_person->appendChild($invoice_family_name);
+        $invoice_person->appendChild($invoice_give_name);
+
+        // Create invoice:postal  which is in invoice:person
+        $invoice_postal = $xmlDoc->createElement('invoice:postal');
+        $invoice_street = $xmlDoc->createElement('invoice:street','Musterstrasse 5');
+        $invoice_zip = $xmlDoc->createElement('invoice:zip',7304);
+        $invoice_city = $xmlDoc->createElement('invoice:city','Maienfeld');
+        $invoice_person->appendChild($invoice_street);
+        $invoice_person->appendChild($invoice_zip);
+        $invoice_person->appendChild($invoice_city);
+        $invoice_patient->appendChild($invoice_postal);
+
+        // Create invoice:card  which is in invoice:patient
+        $invoice_card = $xmlDoc->createElement('invoice:card');
+        $invoice_card->setAttributeNode(new domAttr('card_id',12345678901234567890));
+        $invoice_card->setAttributeNode(new domAttr('expiry_date','2021-08-01T00:00:00'));
+        $invoice_patient->appendChild($invoice_card);
+        $invoice_tiers_payant->appendChild($invoice_patient);
 
 
 
+        /**
+         * Create invoice:guarantor.
+         */
+
+        // Create invoice:guarantor and invoice:personne which is in invoice:tiers_payant
+        $invoice_guarantor = $xmlDoc->createElement('invoice:guarantor');
+        $invoice_person = $xmlDoc->createElement('invoice:person');
+
+        // Set attribute node patient and invoice:personne which is in invoice:tiers_payant
+        $invoice_person->setAttributeNode(new domAttr('salutation','Frau'));
+        $invoice_guarantor->appendChild($invoice_person);
+
+        // Create invoice:patient and invoice:personne which is in invoice:tiers_payant
+        $invoice_family_name = $xmlDoc->createElement('invoice:familyname','Muster');
+        $invoice_give_name = $xmlDoc->createElement('invoice:givenname','Petra');
+        $invoice_person->appendChild($invoice_family_name);
+        $invoice_person->appendChild($invoice_give_name);
+
+        // Create invoice:postal  which is in invoice:person
+        $invoice_postal = $xmlDoc->createElement('invoice:postal');
+        $invoice_street = $xmlDoc->createElement('invoice:street','Musterstrasse 5');
+        $invoice_zip = $xmlDoc->createElement('invoice:zip',7304);
+        $invoice_city = $xmlDoc->createElement('invoice:city','Maienfeld');
+        $invoice_person->appendChild($invoice_street);
+        $invoice_person->appendChild($invoice_zip);
+        $invoice_person->appendChild($invoice_city);
+        $invoice_guarantor->appendChild($invoice_postal);
+        $invoice_tiers_payant->appendChild($invoice_guarantor);
+
+
+        /**
+         * Create invoice:balance.
+         */
+
+        // Create invoice:balance/vat/vat_rate which is in invoice:tiers_payant
+        $invoice_balance = $xmlDoc->createElement('invoice:balance');
+        $invoice_vat = $xmlDoc->createElement('invoice:vat');
+        $invoice_vat_rate = $xmlDoc->createElement('invoice:vat_rate');
+
+
+        // Set attribute node balance/vat/vat_rate which is in invoice:tiers_payant
+        $invoice_balance->setAttributeNode(new domAttr('currency','CHF'));
+        $invoice_balance->setAttributeNode(new domAttr('amount',53199.30));
+        $invoice_balance->setAttributeNode(new domAttr('amount_obligations',53199.30));
+        $invoice_balance->setAttributeNode(new domAttr('amount_due',53199.30));
+        $invoice_vat->setAttributeNode(new domAttr('vat',0.00));
+        $invoice_vat->setAttributeNode(new domAttr('vat_number','CHE108791452'));
+        $invoice_vat_rate->setAttributeNode(new domAttr('vat_rate',0.00));
+        $invoice_vat_rate->setAttributeNode(new domAttr('vat_rate',0));
+        $invoice_vat_rate->setAttributeNode(new domAttr('vat_rate',53199.30));
+
+        // save child invoice:balance/vat/vat_rate which is in invoice:tiers_payant
+        $invoice_vat->appendChild($invoice_vat_rate);
+        $invoice_balance->appendChild($invoice_vat);
+        $invoice_tiers_payant->appendChild($invoice_balance);
 
 
 
+        /**
+         * Create invoice:esrQR .
+         */
+
+        // Create invoice:esrQR
+        $invoice_esrQR = $xmlDoc->createElement('invoice:esrQR');
+
+        // Set attribute node esrQR
+        $invoice_esrQR->setAttributeNode(new domAttr('iban','CH0930769016110591261'));
+        $invoice_esrQR->setAttributeNode(new domAttr('type','esrQR'));
+        $invoice_esrQR->setAttributeNode(new domAttr('reference_number',210000000003139471430009017));
+        $invoice_esrQR->setAttributeNode(new domAttr('customer_note','This is an individuell customer note separated by several lines'));
+
+        // save child invoice:esrQR
+        $invoice_body->appendChild($invoice_esrQR);
+
+        // Create invoice:bank which is in invoice:esrQR
+        $invoice_bank = $xmlDoc->createElement('invoice:bank');
+        $invoice_company = $xmlDoc->createElement('invoice:company');
+        $invoice_companyname = $xmlDoc->createElement('invoice:companyname','Bank AG');
+        $invoice_department = $xmlDoc->createElement('department','Abteilung VESR');
+
+        // save child invoice:bank
+        $invoice_company->appendChild($invoice_companyname);
+        $invoice_company->appendChild($invoice_department);
+        $invoice_bank->appendChild($invoice_company);
+        $invoice_esrQR->appendChild($invoice_bank);
 
 
 
-// -----
-
-/*
-        $invoice_company_name = $xmlDoc->createElement('invoice:companyname');
-        // $invoice_department = $xmlDoc->createElement('invoice:department');
-        // Set attribute node invoice:company/companyname/departement which is in invoice:biller
-        $invoice_biller->appendChild($invoice_company);
-        $invoice_payload->appendChild($invoice_biller);
-
-
-// -----
-
-
-        // Create invoice:debitore which is in invoice:biller
-
-        $invoice_debitor = $xmlDoc->createElement('invoice:debitor');
-
-        $invoice_debitor->setAttributeNode(new domAttr('ean_party',7634567890000));
-
-
-
-        $invoice_payload->appendChild($invoice_debitor);
-
-
-
-// -----
-
-
-         // Create invoice:provider which is in invoice:payload
-
-        $invoice_provider = $xmlDoc->createElement('invoice:provider');
-
-        $invoice_provider->setAttributeNode(new domAttr('ean_party',7634567890111));
-        $invoice_provider->setAttributeNode(new domAttr('zsr','P123456'));
-
-
-
-
-        $invoice_payload->appendChild($invoice_provider);
-
-// -----
-
-
-         // Create invoice:provider which is in invoice:payload
-
-         $invoice_insurance = $xmlDoc->createElement('invoice:insurance');
-
-         $invoice_insurance->setAttributeNode(new domAttr('ean_party',7634567890000));
-
-
-
-
-         $invoice_payload->appendChild($invoice_insurance);
-*/
-// -----
-
-        /*
-
-        // Create invoice:biller which is in invoice:tiers_payant
-        $invoice_service = $xmlDoc->createElement('invoice:invoice_service');
-
-        // Set attribute node invoice:biller which is in invoice:tiers_payant
-        $invoice_service->setAttributeNode(new domAttr('record_id',1));
-        $invoice_service->setAttributeNode(new domAttr('tariff_type',020));
-        $invoice_service->setAttributeNode(new domAttr('code','TR11A'));
-        $invoice_service->setAttributeNode(new domAttr('session',1));
-        $invoice_service->setAttributeNode(new domAttr('quantity',1));
-        $invoice_service->setAttributeNode(new domAttr('date_begin','2021-02-10T00:00:00'));
-
-        $invoice_service->setAttributeNode(new domAttr('ean_party',2011234567890));
-        $invoice_service->setAttributeNode(new domAttr('ean_party',2011234567890));
-
-        // save child invoice:depends_on which is in invoice:generator
-        $invoice_body->appendChild($invoice_service);
+        /* Create invoice:creditor.
         */
+
+       // Create invoice:creditor which is in invoice:esrQR
+       $invoice_creditor = $xmlDoc->createElement('invoice:creditor');
+       $invoice_company = $xmlDoc->createElement('invoice:company');
+       $invoice_company_name = $xmlDoc->createElement('invoice:companyname','CreditorenAllianz beider Basel');
+       $invoice_department = $xmlDoc->createElement('invoice:department','GmbH and Co KGl');
+       $invoice_company->appendChild($invoice_company_name);
+       $invoice_company->appendChild($invoice_department);
+
+       $invoice_postal = $xmlDoc->createElement('invoice:postal');
+       $invoice_street = $xmlDoc->createElement('invoice:street', 'Billerweg 128');
+       $invoice_zip->setAttributeNode(new domAttr('countrycode','CH'));
+       $invoice_zip = $xmlDoc->createElement('invoice:zip', 4414);
+       $invoice_city = $xmlDoc->createElement('invoice:city', 'Frenkendorf');
+
+       // save child invoice:postal which is in invoice:company
+       $invoice_postal->appendChild($invoice_street);
+       $invoice_postal->appendChild($invoice_zip);
+       $invoice_postal->appendChild($invoice_city);
+       $invoice_company->appendChild($invoice_postal);
+       $invoice_creditor->appendChild($invoice_company);
+
+       // save child invoice:creditor which is in invoice:esrQR
+       $invoice_esrQR->appendChild($invoice_creditor);
+
+
+
+       /* Create invoice:kvg.
+        */
+
+         // Create invoice:kvg
+         $invoice_kvg = $xmlDoc->createElement('invoice:kvg');
+
+         // Set attribute node esrQR
+         $invoice_kvg->setAttributeNode(new domAttr('case_id','123456-6789'));
+         $invoice_kvg->setAttributeNode(new domAttr('case_date','2021-04-25T00:00:00'));
+         $invoice_kvg->setAttributeNode(new domAttr('reference_number','123.45.678-012'));
+
+         $invoice_body->appendChild($invoice_kvg);
+
+
+         /* Create invoice:treatment.
+        */
+
+         // Create invoice:treatment
+         $invoice_treatment = $xmlDoc->createElement('invoice:treatment');
+
+         // Set attribute node treatment
+         $invoice_treatment->setAttributeNode(new domAttr('date_begin','2021-02-10T09:00:00'));
+         $invoice_treatment->setAttributeNode(new domAttr('date_end','2021-04-23T09:00:00'));
+         $invoice_treatment->setAttributeNode(new domAttr('canton','BS'));
+         $invoice_treatment->setAttributeNode(new domAttr('reason','disease'));
+         $invoice_treatment->setAttributeNode(new domAttr('apid','stRehaID_1456'));
+         $invoice_treatment->setAttributeNode(new domAttr('acid','Reha005.4'));
+
+        // save child invoice:treatment which is in invoice:body
+         $invoice_body->appendChild($invoice_treatment);
+
+
+        /* Create invoice:diagnosis.
+        */
+
+         // Create invoice:diagnosis
+         $invoice_diagnosis = $xmlDoc->createElement('invoice:diagnosis');
+
+         // Set attribute node diagnosis
+         $invoice_diagnosis->setAttributeNode(new domAttr('type','ICD'));
+         $invoice_diagnosis->setAttributeNode(new domAttr('code','M00.10'));
+         $invoice_diagnosis = $xmlDoc->createElement('invoice:diagnosis','Arthritis und Polyarthritis durch Pneumokokken: Mehrere Lokalisationen');
+
+        // save child invoice:diagnosis which is in invoice:treatment
+         $invoice_treatment->appendChild($invoice_diagnosis);
+
+
+
+        /* Create invoice:xtra_hospital.
+        */
+
+         // Create invoice:xtra_hospital
+         $invoice_xtra_hospital = $xmlDoc->createElement('invoice:xtra_hospital');
+         $invoice_stationary = $xmlDoc->createElement('invoice:stationary');
+
+
+         // Set attribute node xtra_hospital
+         $invoice_stationary->setAttributeNode(new domAttr('section_major','M00'));
+         $invoice_stationary->setAttributeNode(new domAttr('hospitalization_type','regular'));
+         $invoice_stationary->setAttributeNode(new domAttr('hospitalization_mode','noncantonal_indicated'));
+         $invoice_stationary->setAttributeNode(new domAttr('class','general'));
+         $invoice_stationary->setAttributeNode(new domAttr('treatment_days','P73D'));
+         $invoice_stationary->setAttributeNode(new domAttr('hospitalization_date','2021-02-10T09:00:00'));
+         $invoice_stationary->setAttributeNode(new domAttr('has_expense_loading',0));
+
+         $invoice_admission_type = $xmlDoc->createElement('invoice:admission_type');
+         $invoice_discharge_type = $xmlDoc->createElement('invoice:discharge_type');
+         $invoice_provider_type = $xmlDoc->createElement('invoice:provider_type');
+         $invoice_bfs_residence_before_admission = $xmlDoc->createElement('invoice:_bfs_residence_before_admission');
+         $invoice_bfs_admission_type = $xmlDoc->createElement('invoice:_bfs_residence_before_admission');
+         $invoice_bfs_decision_for_discharge = $xmlDoc->createElement('invoice:bfs_decision_for_discharge');
+         $invoice_bfs_residence_after_dischargel = $xmlDoc->createElement('invoice:bfs_residence_after_dischargel');
+
+         $invoice_admission_type->setAttributeNode(new domAttr('number',0));
+         $invoice_admission_type->setAttributeNode(new domAttr('name','normal'));
+
+         $invoice_discharge_type->setAttributeNode(new domAttr('number',0));
+         $invoice_discharge_type->setAttributeNode(new domAttr('name','normal'));
+
+         $invoice_provider_type->setAttributeNode(new domAttr('number',0));
+         $invoice_provider_type->setAttributeNode(new domAttr('name','normal'));
+
+         $invoice_bfs_residence_before_admission->setAttributeNode(new domAttr('code',1));
+         $invoice_bfs_residence_before_admission->setAttributeNode(new domAttr('code','M00'));
+
+         $invoice_bfs_admission_type->setAttributeNode(new domAttr('code',3));
+         $invoice_bfs_admission_type->setAttributeNode(new domAttr('name','Zuhause'));
+
+         $invoice_bfs_decision_for_discharge->setAttributeNode(new domAttr('code',1));
+         $invoice_bfs_decision_for_discharge->setAttributeNode(new domAttr('name','auf Initiative des Behandelnden'));
+
+         $invoice_bfs_residence_after_dischargel->setAttributeNode(new domAttr('code',1));
+         $invoice_bfs_residence_after_dischargel->setAttributeNode(new domAttr('name','Zuhause'));
+
+        // save child invoice:treatment which is in invoice:body
+         $invoice_stationary->appendChild($invoice_admission_type);
+         $invoice_stationary->appendChild($invoice_discharge_type);
+         $invoice_stationary->appendChild($invoice_provider_type);
+         $invoice_stationary->appendChild($invoice_bfs_residence_before_admission);
+         $invoice_stationary->appendChild($invoice_bfs_admission_type);
+         $invoice_stationary->appendChild($invoice_bfs_decision_for_discharge);
+         $invoice_stationary->appendChild($invoice_bfs_residence_after_dischargel);
+
+         $invoice_xtra_hospital->appendChild($invoice_stationary);
+         $invoice_treatment->appendChild($invoice_xtra_hospital);
+
+
+         /* Create invoice:treatment.
+        */
+
+         // Create invoice:treatment
+         $invoice_treatment = $xmlDoc->createElement('invoice:treatment');
+
+         // Set attribute node treatment
+         $invoice_treatment->setAttributeNode(new domAttr('date_begin','2021-02-10T09:00:00'));
+         $invoice_treatment->setAttributeNode(new domAttr('date_end','2021-04-23T09:00:00'));
+         $invoice_treatment->setAttributeNode(new domAttr('canton','BS'));
+         $invoice_treatment->setAttributeNode(new domAttr('reason','disease'));
+         $invoice_treatment->setAttributeNode(new domAttr('apid','stRehaID_1456'));
+         $invoice_treatment->setAttributeNode(new domAttr('acid','Reha005.4'));
+
+        // save child invoice:treatment which is in invoice:body
+         $invoice_body->appendChild($invoice_treatment);
+
+
+        /* Create invoice:diagnosis.
+        */
+
+         // Create invoice:diagnosis
+         $invoice_diagnosis = $xmlDoc->createElement('invoice:diagnosis');
+
+         // Set attribute node diagnosis
+         $invoice_diagnosis->setAttributeNode(new domAttr('type','ICD'));
+         $invoice_diagnosis->setAttributeNode(new domAttr('code','M00.10'));
+         $invoice_diagnosis = $xmlDoc->createElement('invoice:diagnosis','Arthritis und Polyarthritis durch Pneumokokken: Mehrere Lokalisationen');
+
+        // save child invoice:diagnosis which is in invoice:treatment
+         $invoice_treatment->appendChild($invoice_diagnosis);
+
+
+         /* Create invoice:services.
+        */
+
+         // Create invoice:services
+         $invoice_services = $xmlDoc->createElement('invoice:services');
+         $invoice_service = $xmlDoc->createElement('invoice:service');
+
+
+         // Set attribute node treatment
+         $invoice_service->setAttributeNode(new domAttr('record_id',1));
+         $invoice_service->setAttributeNode(new domAttr('tariff_type',020));
+         $invoice_service->setAttributeNode(new domAttr('code','TR11A'));
+         $invoice_service->setAttributeNode(new domAttr('session',1));
+         $invoice_service->setAttributeNode(new domAttr('quantity',1));
+
+         $invoice_service->setAttributeNode(new domAttr('date_begin','2021-02-10T00:00:00'));
+         $invoice_service->setAttributeNode(new domAttr('date_end','2021-04-23T00:00:00'));
+         $invoice_service->setAttributeNode(new domAttr('provider_id',7634567890111));
+         $invoice_service->setAttributeNode(new domAttr('responsible_id',7634567890333));
+         $invoice_service->setAttributeNode(new domAttr('unit','141.264'));
+         $invoice_service->setAttributeNode(new domAttr('unit_factor',759));
+         $invoice_service->setAttributeNode(new domAttr('external_factor','0.49'));
+         $invoice_service->setAttributeNode(new domAttr('amount','52537.49'));
+         $invoice_service->setAttributeNode(new domAttr('service_attributes',0));
+         $invoice_service->setAttributeNode(new domAttr('obligation',1));
+         $invoice_service->setAttributeNode(new domAttr('name','Rehabilitation für Kinder und Jugendliche, Alter kleiner 19 Jahre, mit komplizierender Diagnose'));
+         $invoice_service->setAttributeNode(new domAttr('section_code','M00'));
+
+        // save child invoice:treatment which is in invoice:body
+         $invoice_services->appendChild($invoice_service);
+         $invoice_body->appendChild($invoice_services);
+
 
         // Save save.
         $invoice_payload->appendChild($invoice_body);
