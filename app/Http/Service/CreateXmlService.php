@@ -143,11 +143,106 @@ class CreateXmlService {
         $invoice_company->appendChild($invoice_postal);
         $invoice_biller->appendChild($invoice_company);
 
+        // Create invoice:telecom and online which is in invoice:company
+        $invoice_telecom = $xmlDoc->createElement('invoice:telecom');
+        $invoice_phone = $xmlDoc->createElement('invoice:phone','061 956 99 00');
+        $invoice_fax = $xmlDoc->createElement('invoice:fax','061 956 99 10');
+        $invoice_telecom->appendChild($invoice_phone);
+        $invoice_telecom->appendChild($invoice_fax);
+        $invoice_company->appendChild($invoice_telecom);
+        $invoice_online = $xmlDoc->createElement('invoice:online');
+        $invoice_email = $xmlDoc->createElement('invoice:email','info@biller.ch');
+        $invoice_online->appendChild($invoice_email);
+        $invoice_company->appendChild($invoice_online);
 
-
-        // save child invoice:depends_on which is in invoice:generator
+        // save child invoice:biller wich is in invoice:invoice_tiers_payant
         $invoice_tiers_payant->appendChild($invoice_biller);
         $invoice_body->appendChild($invoice_tiers_payant);
+
+
+        /**
+         * Create invoice invoice:debitor.
+         */
+
+        // Create invoice:debitor which is in invoice:tiers_payant
+        $invoice_debitor = $xmlDoc->createElement('invoice:debitor');
+
+
+        // Set attribute node invoice:biller which is in invoice:tiers_payant
+        $invoice_debitor->setAttributeNode(new domAttr('ean_party',7634567890000));
+
+
+        // Create invoice:company which is in invoice:debitor
+        $invoice_company = $xmlDoc->createElement('invoice:company');
+        $invoice_company_name = $xmlDoc->createElement('invoice:companyname', 'Rehaklinik zur Genesung');
+        $invoice_company->appendChild($invoice_company_name);
+        $invoice_postal = $xmlDoc->createElement('invoice:postal');
+        $invoice_street = $xmlDoc->createElement('invoice:street', 'Kassengraben 222');
+        $invoice_zip = $xmlDoc->createElement('invoice:zip', 4000);
+        $invoice_city = $xmlDoc->createElement('invoice:city', 'Basel');
+        $invoice_postal->appendChild($invoice_street);
+        $invoice_postal->appendChild($invoice_zip);
+        $invoice_postal->appendChild($invoice_city);
+        $invoice_company->appendChild($invoice_postal);
+        $invoice_debitor->appendChild($invoice_company);
+
+        // save child invoice:depends_on which is in invoice:generator
+        $invoice_tiers_payant->appendChild($invoice_debitor);
+
+
+
+        /**
+         * Create invoice invoice:provider.
+         */
+
+        // Create invoice:debitor which is in invoice:tiers_payant
+        $invoice_provider = $xmlDoc->createElement('invoice:provider');
+
+        // Set attribute node invoice:biller which is in invoice:tiers_payant
+        $invoice_provider->setAttributeNode(new domAttr('ean_party',7634567890000));
+        $invoice_provider->setAttributeNode(new domAttr('zsr','P123456'));
+
+        // Create invoice:company which is in invoice:provider
+        $invoice_company = $xmlDoc->createElement('invoice:company');
+        $invoice_company_name = $xmlDoc->createElement('invoice:companyname', 'Rehaklinik zur Genesung');
+        $invoice_company->appendChild($invoice_company_name);
+        $invoice_postal = $xmlDoc->createElement('invoice:postal');
+        $invoice_street = $xmlDoc->createElement('invoice:street', 'Spitalgasse 17b5');
+        $invoice_zip->setAttributeNode(new domAttr('statecode','BS'));
+        $invoice_zip = $xmlDoc->createElement('invoice:zip', 4000);
+        $invoice_city = $xmlDoc->createElement('invoice:city', 'Basel');
+        $invoice_postal->appendChild($invoice_street);
+        $invoice_postal->appendChild($invoice_zip);
+        $invoice_postal->appendChild($invoice_city);
+        $invoice_company->appendChild($invoice_postal);
+        $invoice_provider->appendChild($invoice_company);
+
+        // save child invoice:provider which is in invoice:tiers_payant
+        $invoice_tiers_payant->appendChild($invoice_provider);
+
+         // Create invoice:telecom which is in invoice:company
+        $invoice_telecom = $xmlDoc->createElement('invoice:telecom');
+        $invoice_phone = $xmlDoc->createElement('invoice:phone','061 956 99 00');
+        $invoice_fax = $xmlDoc->createElement('invoice:fax','061 956 99 10');
+        $invoice_telecom->appendChild($invoice_phone);
+        $invoice_telecom->appendChild($invoice_fax);
+        $invoice_company->appendChild($invoice_telecom);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // -----
 

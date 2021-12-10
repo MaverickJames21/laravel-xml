@@ -25,8 +25,39 @@
               <invoice:zip>4414</invoice:zip>
               <invoice:city>Frenkendorf</invoice:city>
             </invoice:postal>
+            <invoice:telecom>
+              <invoice:phone>061 956 99 00</invoice:phone>
+              <invoice:fax>061 956 99 10</invoice:fax>
+            </invoice:telecom>
+            <invoice:online>
+              <invoice:email>info@biller.ch</invoice:email>
+            </invoice:online>
           </invoice:company>
         </invoice:biller>
+        <invoice:debitor ean_party="7634567890000">
+          <invoice:company>
+            <invoice:companyname>Rehaklinik zur Genesung</invoice:companyname>
+            <invoice:postal>
+              <invoice:street>Kassengraben 222</invoice:street>
+              <invoice:zip statecode="BS">4000</invoice:zip>
+              <invoice:city>Basel</invoice:city>
+            </invoice:postal>
+          </invoice:company>
+        </invoice:debitor>
+        <invoice:provider ean_party="7634567890111" zsr="P123456">
+          <invoice:company>
+            <invoice:companyname>Rehaklinik zur Genesung</invoice:companyname>
+            <invoice:postal>
+              <invoice:street>Spitalgasse 17b5</invoice:street>
+              <invoice:zip statecode="BS">4000</invoice:zip>
+              <invoice:city>Basel</invoice:city>
+            </invoice:postal>
+            <invoice:telecom>
+              <invoice:phone>061 956 99 00</invoice:phone>
+              <invoice:fax>061 956 99 10</invoice:fax>
+            </invoice:telecom>
+          </invoice:company>
+        </invoice:provider>
       </invoice:invoice_tiers_payant>
     </invoice:body>
   </invoice:payload>
